@@ -6,6 +6,12 @@ const baseUrl = process.env.BASE_URL || 'https://www.rsystems.com';
 
 const chromeArgs = ['--window-size=1920,1080', '--disable-notifications', '--no-sandbox'];
 if (headless) chromeArgs.push('--headless=new', '--disable-gpu');
+// rsystems.com's CDN returns 403 to the default "HeadlessChrome" user agent from CI IP ranges,
+// so we present a regular desktop Chrome user agent.
+chromeArgs.push(
+  '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  '--disable-blink-features=AutomationControlled'
+);
 
 export const config: WebdriverIO.Config = {
   runner: 'local',
