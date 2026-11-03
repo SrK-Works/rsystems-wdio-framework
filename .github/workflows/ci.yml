@@ -1,0 +1,38 @@
+name: WDIO tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Cucumber tag expression (e.g. @smoke)'
+        required: false
+        default: ''
+  schedule:
+    - cron: '30 3 * * 1-5'   # weekdays 09:00 IST
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - name: Run WebdriverIO tests
+        run: npm test
+        env:
+          TAGS: ${{ github.event.inputs.tags }}
+      - name: Build HTML report
+        if: always()
+        run: npm run report
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wdio-reports
+          path: reports/

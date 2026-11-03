@@ -1,0 +1,29 @@
+{
+  "name": "rsystems-wdio-framework",
+  "version": "1.0.0",
+  "description": "WebdriverIO + Cucumber + TypeScript BDD framework demo against the public R Systems website (read-only checks).",
+  "type": "module",
+  "scripts": {
+    "test": "wdio run wdio.conf.ts",
+    "test:smoke": "wdio run wdio.conf.ts --cucumberOpts.tagExpression=\"@smoke\"",
+    "test:regression": "wdio run wdio.conf.ts --cucumberOpts.tagExpression=\"@regression\"",
+    "test:headed": "HEADLESS=false wdio run wdio.conf.ts",
+    "typecheck": "tsc --noEmit",
+    "report": "node src/utilities/generate-report.mjs"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.20",
+    "@types/node": "^22.0.0",
+    "@wdio/cli": "^9.0.0",
+    "@wdio/cucumber-framework": "^9.0.0",
+    "@wdio/globals": "^9.0.0",
+    "@wdio/junit-reporter": "^9.0.0",
+    "@wdio/local-runner": "^9.0.0",
+    "@wdio/spec-reporter": "^9.0.0",
+    "chai": "^4.5.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "wdio-cucumberjs-json-reporter": "^6.0.0",
+    "multiple-cucumber-html-reporter": "^3.9.0"
+  }
+}

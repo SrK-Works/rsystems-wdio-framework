@@ -1,0 +1,5 @@
+{
+  "baseUrl": "https://www.rsystems.com",
+  "expectedTitleFragment": "R Systems",
+  "mainMenu": ["What We Do", "Who We Serve", "Join Us", "Get in Touch"]
+}
