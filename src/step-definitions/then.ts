@@ -5,11 +5,13 @@ import { getSelector } from '../maps/stitcher';
 
 // then = assertions ("should", "expect", "verify")
 Then(/^the page title should contain "([^"]*)"$/, async (text: string) => {
-  await browser.waitUntil(async () => (await browser.getTitle()).includes(text), {
-    timeout: 15000,
-    timeoutMsg: `Title never contained "${text}"`
-  });
-  expect(await browser.getTitle()).to.contain(text);
+  try {
+    await browser.waitUntil(async () => (await browser.getTitle()).includes(text), { timeout: 15000 });
+  } catch {
+    // include what we actually saw: makes CI failures self-explanatory
+    const body = (await $('body').getText()).replace(/\s+/g, ' ').slice(0, 200);
+    throw new Error(`Title never contained "${text}". Actual title: "${await browser.getTitle()}" url: ${await browser.getUrl()} body: ${body}`);
+  }
 });
 
 Then(/^the URL should contain "([^"]*)"$/, async (fragment: string) => {
